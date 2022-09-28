@@ -1,0 +1,36 @@
+<div class="columns">
+    <div class="midbox column col-5 col-lg-8 col-sm-12 col-mx-auto bg-secondary">
+        <div class="text-group text-center">
+            <h1>Login</h1>
+            <p>Login to your account.</p>
+        </div>
+        <form [formGroup]="signupForm" id="signupForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <ng-container *ngFor="let field of fields">
+                    <div *ngIf="field.type =='check'" [hidden]="field.hidden=='true'">
+                        <label class="form-checkbox">
+                            <input  id="{{field.field}}"  type="checkbox" [formControlName]="field.field">
+                            <i class="form-icon"></i> Remember me
+                        </label>
+                    </div>
+                    <div *ngIf="field.type !='check'" [hidden]="field.hidden=='true'">
+                        <label class="form-label" for="{{field.field}}">{{field.label}}</label>
+                        <input id="{{field.field}}" class="form-input" id="{{field.field}}" type="{{field.type}}" name="{{field.field}}"
+                            [formControlName]="field.field">
+                        <ng-container *ngIf="signupForm.get(field.field)?.errors && isSubmitted">
+                            <span class="text-error form-hint"
+                                *ngFor="let err of signupForm.get(field.field)?.errors | objToKeys">
+                                {{err}}
+                            </span>
+                        </ng-container>
+
+                    </div>
+                </ng-container>
+            </div>
+            <br>
+            <button type="submit" id="btn-signup" class="btn btn-primary d-block btn-lg btn--full"
+                type="submit">Login </button>
+            <p id="text--warning" class="text-error" *ngIf="signupForm.invalid && isSubmitted">There are issues in the form. Please fix and try again before submiting.</p>
+        </form>
+    </div>
+</div>
